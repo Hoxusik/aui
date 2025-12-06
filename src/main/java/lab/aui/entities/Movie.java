@@ -3,6 +3,8 @@ import lombok.*;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+
+import java.util.Comparator;
 import java.util.UUID;
 
 @Getter
@@ -19,14 +21,16 @@ public class Movie implements Comparable<Movie>, Serializable {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
     @Column(name = "release_year", nullable = false)
-    private int releaseYear;
+    private Integer releaseYear;
     @ManyToOne//(optional = false)
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
 
     @Override
     public int compareTo(Movie other) {
-        return title.compareTo(other.title);
+        return Comparator.comparing(Movie::getTitle)
+                .thenComparing(Movie::getReleaseYear)
+                .compare(this, other);
     }
 
     @Override

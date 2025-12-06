@@ -24,7 +24,7 @@ public class Director implements Comparable<Director>, Serializable {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "birth_year", nullable = false)
-    private int birthYear;
+    private Integer birthYear;
     @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default List<Movie> movies = new ArrayList<>();
 
@@ -47,6 +47,12 @@ public class Director implements Comparable<Director>, Serializable {
         }
     }
 
+    public void removeMovie(Movie movie) {
+        if(movie!=null) {
+            movies.remove(movie);
+            movie.setDirector(null);
+        }
+    }
     @Override
     public String toString() {
         return String.format("Name: %s | Surname: %s | BirthYear: %d ", firstName, lastName, birthYear);

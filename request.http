@@ -1,0 +1,90 @@
+@base = http://localhost:8080/api
+@json = application/json
+
+#DIRECTORS — list all
+GET {{base}}/directors
+Accept: application/json
+###
+
+#DIRECTORS — create
+POST {{base}}/directors
+Content-Type: application/json
+Accept: application/json
+
+{
+    "firstName": "Piotr",
+    "lastName": "Staszko",
+    "birthYear": 2005
+}
+###
+#id wlasnie stworzonego
+@directorId = 49c21bd7-5d67-445a-8743-354d8e0dca43
+
+###
+#DIRECTORS — get by id
+GET {{base}}/directors/{{directorId}}
+Accept: application/json
+
+###
+#DIRECTORS — update
+PUT {{base}}/directors/{{directorId}}
+Content-Type: {{json}}
+
+{
+    "firstName": "Piter",
+    "lastName": "Staszek",
+    "birthYear": 2006
+}
+
+###
+##DIRECTORS — delete
+DELETE {{base}}/directors/{{directorId}}
+
+###
+#MOVIES — list all
+GET {{base}}/movies
+Accept: application/json
+
+###
+#MOVIES — list by director (existing → 200, [] if empty)
+GET {{base}}/movies/directors/{{directorId}}
+Accept: application/json
+
+###
+#MOVIES — create under director
+POST {{base}}/movies/{{directorId}}
+Content-Type: {{json}}
+Accept: application/json
+
+{
+"title": "Fantastic Movie",
+"releaseYear": 2022
+}
+
+###
+#id nowo utworzonego filmu:
+@movieId = d9b78089-4f3c-45f6-a78d-df22d1247f57
+
+###
+#MOVIES — get by id
+GET {{base}}/movies/{{movieId}}
+Accept: application/json
+
+###
+#MOVIES — update
+PUT {{base}}/movies/{{movieId}}
+Content-Type: {{json}}
+
+{
+"title": "Dramatic Movie",
+"releaseYear": 2023
+}
+
+###
+#MOVIES — delete
+DELETE {{base}}/movies/{{movieId}}
+
+###
+#MOVIES — nie ma tego directora 404 blad
+#GET {{base}}/directors/00000000-0000-0000-0000-000000000000/movies
+#Accept: application/json
