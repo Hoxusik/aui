@@ -1,0 +1,42 @@
+
+
+### KROK 1: Sprawdź listę reżyserów
+### Gateway (8080) przekieruje to do Director Service (8081)
+GET http://localhost:8080/api/directors
+### KROK 2: Dodaj nowego reżysera (Denis Villeneuve)
+POST http://localhost:8080/api/directors
+Content-Type: application/json
+
+{
+  "firstName": "Kevin",
+  "lastName": "Keviniasty",
+  "birthYear": 1967
+}
+
+### KROK 3: Pobierz listę, żeby zdobyć ID
+# WAŻNE: Skopiuj UUID nowo dodanego Denisa Villeneuve z odpowiedzi!
+GET http://localhost:8080/api/directors
+
+### KROK 4: Dodaj film "Diuna" dla tego reżysera
+# Gateway (8080) przekieruje to do Movie Service (8082)
+# Podmień tekst poniżej na skopiowane UUID!
+POST http://localhost:8080/api/movies
+Content-Type: application/json
+
+{
+  "title": "Kevin sam w domu",
+  "releaseYear": 2024,
+  "directorId": "5a4678f8-bf79-43a6-bf68-4ff163735939"
+}
+
+### KROK 5: Sprawdź czy film się dodał
+GET http://localhost:8080/api/movies
+
+### KROK 6: USUWANIE (Wielki test komunikacji)
+DELETE http://localhost:8080/api/directors/5a4678f8-bf79-43a6-bf68-4ff163735939
+
+### KROK 7: Weryfikacja usunięcia reżysera
+GET http://localhost:8080/api/directors
+
+### KROK 8: Weryfikacja usunięcia filmu (Event)
+GET http://localhost:8080/api/movies
