@@ -1,0 +1,39 @@
+
+
+### KROK 1: Sprawdź listę reżyserów
+### Gateway (8080) przekieruje to do Director Service (8081)
+GET http://localhost:8080/api/directors
+### KROK 2: Dodaj nowego reżysera (Denis Villeneuve)
+POST http://localhost:8080/api/directors
+Content-Type: application/json
+
+{
+  "firstName": "Michał",
+  "lastName": "Siembajda",
+  "birthYear": 2004
+}
+
+### KROK 3: Pobierz listę, żeby zdobyć ID
+GET http://localhost:8080/api/directors
+
+### KROK 4: Dodaj film "Diuna" dla tego reżysera
+POST http://localhost:8080/api/movies
+Content-Type: application/json
+
+{
+  "title": "Osiedlak",
+  "releaseYear": 2024,
+  "directorId": "5a4678f8-bf79-43a6-bf68-4ff163735939"
+}
+
+### KROK 5: Sprawdź czy film się dodał
+GET http://localhost:8080/api/movies/fcd31e0e-171c-49c8-8a33-c4b9083ebdaf
+
+### KROK 6: USUWANIE (Wielki test komunikacji)
+DELETE http://localhost:8080/api/directors/bc8bce88-f5af-4914-bbd7-6b9172d10a50
+
+### KROK 7: Weryfikacja usunięcia reżysera
+GET http://localhost:8080/api/directors
+
+### KROK 8: Weryfikacja usunięcia filmu (Event)
+GET http://localhost:8080/api/movies

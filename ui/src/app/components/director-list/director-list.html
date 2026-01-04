@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista Reżyserów</h2>
+    <button class="btn btn-primary" routerLink="/directors/new">Dodaj Nowego</button>
+  </div>
+
+  <ul class="list-group">
+    <li
+      *ngFor="let director of directors"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <div>
+        <strong>{{ director.firstName }} {{ director.lastName }}</strong>
+        <span class="text-muted ms-2">({{ director.birthYear }})</span>
+      </div>
+
+      <div>
+        <button class="btn btn-info btn-sm me-2" [routerLink]="['/directors', director.id]">
+          Szczegóły
+        </button>
+        <button
+          class="btn btn-warning btn-sm me-2"
+          [routerLink]="['/directors', director.id, 'edit']"
+        >
+          Edytuj
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="deleteDirector(director.id)">Usuń</button>
+      </div>
+    </li>
+  </ul>
+
+  <div *ngIf="directors.length === 0" class="alert alert-warning mt-3">
+    Brak reżyserów w bazie lub błąd połączenia.
+  </div>
+</div>

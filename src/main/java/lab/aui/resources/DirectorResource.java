@@ -1,2 +1,0 @@
-package lab.aui.resources;public class DirectorResource {
-}

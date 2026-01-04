@@ -1,0 +1,26 @@
+<div class="container mt-5" *ngIf="movie">
+  <div class="card text-center">
+    <div class="card-header">Szczegóły Filmu</div>
+    <div class="card-body">
+      <h2 class="card-title text-primary">{{ movie.title }}</h2>
+      <p class="card-text fs-4">
+        Rok produkcji: <strong>{{ movie.releaseYear }}</strong>
+      </p>
+
+      <p class="text-muted small">ID: {{ movie.id }}</p>
+
+      <div class="mt-4">
+        <button class="btn btn-secondary me-2" [routerLink]="['/directors', directorId]">
+          Wróć
+        </button>
+
+        <button
+          class="btn btn-warning"
+          [routerLink]="['/directors', directorId, 'movies', movie.id, 'edit']"
+        >
+          Edytuj
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
