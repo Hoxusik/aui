@@ -72,7 +72,19 @@ public class MovieResource {
                         .director(director.toString())
                         .build());
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateMovie(@PathVariable UUID id, @RequestBody MovieUpdateDTO dto) {
 
+        Movie movie = movieService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found"));
+
+        movie.setTitle(dto.getTitle());
+        movie.setReleaseYear(dto.getReleaseYear());
+
+        movieService.save(movie);
+
+        return ResponseEntity.noContent().build();
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
         movieService.deleteById(id); // Upewnij się, że masz deleteById w serwisie
