@@ -1,4 +1,4 @@
-package aui.microservices.gateway; // <--- Upewnij się, że ta nazwa pakietu pasuje do twoich folderów!
+package aui.microservices.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +13,6 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-	// --- TO JEST TA CZĘŚĆ, KTÓREJ BRAKUJE ---
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()

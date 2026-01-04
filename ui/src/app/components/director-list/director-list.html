@@ -18,7 +18,12 @@
         <button class="btn btn-info btn-sm me-2" [routerLink]="['/directors', director.id]">
           Szczegóły
         </button>
-
+        <button
+          class="btn btn-warning btn-sm me-2"
+          [routerLink]="['/directors', director.id, 'edit']"
+        >
+          Edytuj
+        </button>
         <button class="btn btn-danger btn-sm" (click)="deleteDirector(director.id)">Usuń</button>
       </div>
     </li>

@@ -1,0 +1,55 @@
+<div class="container mt-4" *ngIf="director">
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>{{ director.firstName }} {{ director.lastName }}</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Rok urodzenia:</strong> {{ director.birthYear }}</p>
+      <button class="btn btn-secondary" routerLink="/directors">Powrót do listy</button>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Filmy tego reżysera</h3>
+    <button class="btn btn-success" [routerLink]="['/directors', director.id, 'movies', 'new']">
+      Dodaj Film
+    </button>
+  </div>
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Tytuł</th>
+        <th>Rok</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let movie of movies">
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.releaseYear }}</td>
+        <td>
+          <button
+            class="btn btn-info btn-sm me-2"
+            [routerLink]="['/directors', director.id, 'movies', movie.id]"
+          >
+            Info
+          </button>
+
+          <button
+            class="btn btn-warning btn-sm me-2"
+            [routerLink]="['/directors', director.id, 'movies', movie.id, 'edit']"
+          >
+            Edytuj
+          </button>
+
+          <button class="btn btn-danger btn-sm" (click)="deleteMovie(movie.id)">Usuń</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="movies.length === 0" class="alert alert-info">
+    Ten reżyser nie ma jeszcze przypisanych żadnych filmów.
+  </div>
+</div>

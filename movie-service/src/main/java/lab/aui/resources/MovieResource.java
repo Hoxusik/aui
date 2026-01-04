@@ -6,7 +6,6 @@ import lab.aui.repositories.SimplifiedDirectorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
@@ -24,18 +23,28 @@ public class MovieResource {
     public List<MovieDTO> getAllMovies() {
         return movieService.findAll().stream()
                 .map(m -> MovieDTO.builder()
+                        .id(m.getId()) // <--- WAŻNE: Musisz zwracać ID filmu
                         .title(m.getTitle())
                         .releaseYear(m.getReleaseYear())
-                        .director(m.getDirector().toString()) // Używamy toString z SimplifiedDirector
+                        .directorId(m.getDirector().getId()) // <--- KLUCZOWE: ID reżysera dla Angulara!
+                        .director(m.getDirector().toString())
                         .build())
                 .toList();
     }
 
+    // TĘ FUNKCJĘ NAPRAWIAMY:
     @GetMapping("/{id}")
     public ResponseEntity<MovieDTO> getMovie(@PathVariable UUID id) {
-        // Tu warto dodać metodę findById w serwisie, ale na razie użyjmy repo w serwisie lub dopiszmy logikę
-        // Zakładam, że w serwisie dodasz metodę findById, jeśli jej nie ma:
-        return ResponseEntity.notFound().build(); // Placeholder, dopisz w serwisie findById
+        return movieService.findById(id)
+                .map(m -> MovieDTO.builder()
+                        .id(m.getId())
+                        .title(m.getTitle())
+                        .releaseYear(m.getReleaseYear())
+                        .directorId(m.getDirector().getId()) // Tu też dodajemy ID reżysera
+                        .director(m.getDirector().toString())
+                        .build())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -56,15 +65,17 @@ public class MovieResource {
 
         return ResponseEntity.created(URI.create("/api/movies/" + movie.getId()))
                 .body(MovieDTO.builder()
+                        .id(movie.getId()) // Tu też zwracamy ID
                         .title(movie.getTitle())
                         .releaseYear(movie.getReleaseYear())
+                        .directorId(director.getId())
                         .director(director.toString())
                         .build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
-        movieService.deleteById(id);
+        movieService.deleteById(id); // Upewnij się, że masz deleteById w serwisie
         return ResponseEntity.noContent().build();
     }
 }

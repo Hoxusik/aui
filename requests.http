@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "firstName": "Michał",
-  "lastName": "Siembida",
+  "lastName": "Siembajda",
   "birthYear": 2004
 }
 
@@ -27,10 +27,10 @@ Content-Type: application/json
 }
 
 ### KROK 5: Sprawdź czy film się dodał
-GET http://localhost:8080/api/movies
+GET http://localhost:8080/api/movies/fcd31e0e-171c-49c8-8a33-c4b9083ebdaf
 
 ### KROK 6: USUWANIE (Wielki test komunikacji)
-DELETE http://localhost:8080/api/directors/5a4678f8-bf79-43a6-bf68-4ff163735939
+DELETE http://localhost:8080/api/directors/bc8bce88-f5af-4914-bbd7-6b9172d10a50
 
 ### KROK 7: Weryfikacja usunięcia reżysera
 GET http://localhost:8080/api/directors
