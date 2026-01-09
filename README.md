@@ -11,7 +11,7 @@
 ## 🏗 Architecture
 
 The project follows the **Microservices** architecture pattern. It consists of two independent backend services, an API Gateway, and a Single Page Application (SPA) frontend served via NGINX.
-
+Created for educational purposes.
 ### System Components
 
 | Service | Technology | Internal Port | Description |
@@ -35,4 +35,3 @@ graph LR
     Movie --> DB2[(Movie DB)]
 
 
-Created for educational purposes.
