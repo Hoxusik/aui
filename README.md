@@ -33,3 +33,6 @@ graph LR
     Gateway -->|/api/movies| Movie[Movie Service]
     Director --> DB1[(Director DB)]
     Movie --> DB2[(Movie DB)]
+
+
+Created for educational purposes.
