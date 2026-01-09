@@ -1,0 +1,98 @@
+name: aui2
+services:
+  movie-db:
+    image: postgres:18
+    container_name: movie-db
+    environment:
+      POSTGRES_DB: moviedb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d moviedb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  director-db:
+    image: postgres:18
+    container_name: director-db
+    environment:
+      POSTGRES_DB: directordb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d directordb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  movie-service:
+    build:
+      context: ./movie-service
+      dockerfile: Dockerfile
+    container_name: movie-service
+    depends_on:
+      movie-db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+  director-service:
+    build:
+      context: ./director-service
+      dockerfile: Dockerfile
+    container_name: director-service
+    depends_on:
+      director-db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+  gateway:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      director-service:
+        condition: service_started
+      movie-service:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8090:8080"
+    depends_on:
+      director-db:
+        condition: service_healthy
+      movie-db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: ui
+    ports:
+      - "80:80"
+    depends_on:
+      gateway:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
+networks:
+  app-network:
+    driver: bridge

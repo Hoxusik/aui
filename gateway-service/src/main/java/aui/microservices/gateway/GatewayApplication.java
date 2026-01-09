@@ -16,13 +16,11 @@ public class GatewayApplication {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
-				// Konfiguracja dla Reżyserów (Port 8081)
 				.route("director-service", r -> r.path("/api/directors/**")
-						.uri("http://localhost:8081"))
+						.uri("http://director-service:8082"))
 
-				// Konfiguracja dla Filmów (Port 8082)
 				.route("movie-service", r -> r.path("/api/movies/**")
-						.uri("http://localhost:8082"))
+						.uri("http://movie-service:8081"))
 				.build();
 	}
 }

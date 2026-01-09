@@ -12,7 +12,6 @@ public class AuiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuiApplication.class, args);
 	}
-	// Bean RestTemplate z ustawionym bazowym URL do movie-service
 	@Bean
 	public RestTemplate restTemplate(@Value("${microservices.movie.url}") String baseUrl) {
 		return new RestTemplateBuilder().rootUri(baseUrl).build();

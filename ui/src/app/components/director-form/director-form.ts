@@ -16,7 +16,7 @@ export class DirectorFormComponent implements OnInit {
   director: Partial<Director> = {
     firstName: '',
     lastName: '',
-    birthYear: 1980,
+    birthYear: 2004,
   };
 
   isEditMode = false; // editmode czy nowego dodajemy
