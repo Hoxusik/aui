@@ -23,10 +23,10 @@ public class MovieResource {
     public List<MovieDTO> getAllMovies() {
         return movieService.findAll().stream()
                 .map(m -> MovieDTO.builder()
-                        .id(m.getId()) // <--- WAŻNE: Musisz zwracać ID filmu
+                        .id(m.getId())
                         .title(m.getTitle())
                         .releaseYear(m.getReleaseYear())
-                        .directorId(m.getDirector().getId()) // <--- KLUCZOWE: ID reżysera dla Angulara!
+                        .directorId(m.getDirector().getId())
                         .director(m.getDirector().toString())
                         .build())
                 .toList();
@@ -49,11 +49,9 @@ public class MovieResource {
 
     @PostMapping
     public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieUpdateDTO dto) {
-        // 1. Szukamy uproszczonego reżysera w LOKALNEJ bazie movie-service
         SimplifiedDirector director = simplifiedDirectorRepository.findById(dto.getDirectorId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Director not found in local DB"));
 
-        // 2. Tworzymy film
         Movie movie = Movie.builder()
                 .id(UUID.randomUUID())
                 .title(dto.getTitle())

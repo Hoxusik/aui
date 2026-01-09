@@ -18,7 +18,7 @@ import java.util.UUID;
 public class DirectorService {
 
     private final DirectorRepository directorRepository;
-    private final DirectorEventRepository directorEventRepository; // Wstrzykujemy
+    private final DirectorEventRepository directorEventRepository;
 
     public List<Director> findAll() {
         return directorRepository.findAll();
@@ -43,7 +43,6 @@ public class DirectorService {
                 .build();
         Director saved = directorRepository.save(d);
 
-        // POWIADOMIENIE (Event)
         directorEventRepository.upsert(saved);
 
         return saved;
@@ -56,7 +55,6 @@ public class DirectorService {
         }
         Director saved = directorRepository.save(director);
 
-        // POWIADOMIENIE (Event)
         directorEventRepository.upsert(saved);
 
         return saved;
@@ -72,7 +70,6 @@ public class DirectorService {
 
         Director updated = directorRepository.save(d);
 
-        // POWIADOMIENIE (Event)
         directorEventRepository.upsert(updated);
 
         return updated;
@@ -82,7 +79,6 @@ public class DirectorService {
     public void deleteById(UUID id) {
         directorRepository.deleteById(id);
 
-        // POWIADOMIENIE (Event)
         directorEventRepository.delete(id);
     }
 }
